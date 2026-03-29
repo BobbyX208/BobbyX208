@@ -25,8 +25,8 @@ Building software that ships. I focus on high-utility tools, Discord ecosystems,
 
 ### 📊 Stats & Energy
 <p align="left">
-<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=BobbyX208&show_icons=true&theme=transparent&icon_color=ff5c00&text_color=ffffff&bg_color=00000000&hide_border=true" />
-<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=BobbyX208&layout=compact&theme=transparent&langs_count=6&icon_color=ff5c00&text_color=ffffff&bg_color=00000000&hide_border=true" />
+<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=BobbyX208&show_icons=true&theme=dark&icon_color=ff5c00&text_color=ffffff&bg_color=080808&hide_border=true&cache_seconds=1800" />
+<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=BobbyX208&layout=compact&theme=dark&langs_count=6&icon_color=ff5c00&text_color=ffffff&bg_color=080808&hide_border=true&cache_seconds=1800" />
 </p>
 
 ---
