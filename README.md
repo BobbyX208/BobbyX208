@@ -25,14 +25,14 @@ Building software that ships. I focus on high-utility tools, Discord ecosystems,
 
 ### 📊 Stats & Energy
 <p align="left">
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=BobbyX208&show_icons=true&theme=tokyonight&icon_color=ff5c00&text_color=f5f0eb&bg_color=080808&hide_border=true" />
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=BobbyX208&layout=compact&theme=tokyonight&langs_count=6&icon_color=ff5c00&text_color=f5f0eb&bg_color=080808&hide_border=true" />
+<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=BobbyX208&show_icons=true&theme=transparent&icon_color=ff5c00&text_color=ffffff&bg_color=00000000&hide_border=true" />
+<img height="180em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=BobbyX208&layout=compact&theme=transparent&langs_count=6&icon_color=ff5c00&text_color=ffffff&bg_color=00000000&hide_border=true" />
 </p>
 
 ---
 
 ### 📫 Connect with Me
-[Portfolio](https://iambobby.netlify.app) • [Instagram](https://instagram.com/bob_msi) • [Discord](https://discord.com/ro.bob)
+[Portfolio](https://iambobby.netlify.app) • [Instagram](https://instagram.com/bob_msi) • [Discord](https://discord.com/users/1214231706698252320)
 
 
 <!--
