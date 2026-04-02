@@ -32,7 +32,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/github-snake.svg assets/github-snake-dark.svg
-          git commit -m "🐍 Update contribution snake ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git commit -m "🐍 Update contribution snake" || echo "No changes"
           git push || echo "Nothing to push"
 
   # ============================================
@@ -40,7 +40,6 @@ jobs:
   # ============================================
   generate-metrics:
     runs-on: ubuntu-latest
-    needs: [generate-snake]
     steps:
       - uses: actions/checkout@v4
       
@@ -50,57 +49,32 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           user: BobbyX208
           filename: assets/metrics.svg
-          
-          # Base sections (valid values only)
           base: header, activity, community
           base_indepth: yes
           base_hireable: yes
-          
-          # Performance
           retries: 3
           retries_delay: 60
           use_prebuilt_image: yes
           config_timezone: Africa/Lagos
-          
-          # Plugin: Achievements
           plugin_achievements: yes
           plugin_achievements_threshold: B
-          plugin_achievements_secrets: yes
-          plugin_achievements_display: compact
-          plugin_achievements_limit: 8
-          
-          # Plugin: 3D Calendar
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
-          
-          # Plugin: Languages
           plugin_languages: yes
           plugin_languages_details: bytes-size, percentage
           plugin_languages_limit: 6
-          plugin_languages_threshold: 1%
-          
-          # Plugin: Habits
           plugin_habits: yes
-          plugin_habits_from: 200
           plugin_habits_days: 14
-          plugin_habits_facts: yes
-          plugin_habits_charts: yes
-          
-          # Plugin: Activity
           plugin_activity: yes
           plugin_activity_limit: 5
-          plugin_activity_days: 14
-          
-          # Output
           output_action: commit
           commit_message: "📊 Update GitHub metrics"
 
   # ============================================
-  # JOB 3: Generate Streak Stats
+  # JOB 3: Generate Streak Stats (FIXED)
   # ============================================
   generate-streak:
     runs-on: ubuntu-latest
-    needs: [generate-metrics]
     steps:
       - uses: actions/checkout@v4
       
@@ -108,21 +82,23 @@ jobs:
         run: |
           curl -s "https://github-readme-streak-stats.herokuapp.com?user=BobbyX208&theme=dark&hide_border=true&stroke=ff5c00&ring=ff5c00&fire=ff5c00&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=ff5c00&sideLabels=ffffff&dates=888888&background=0D1117" \
           > assets/streak.svg
+          
+          # Verify file was created
+          ls -la assets/streak.svg
       
       - name: Commit Streak
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/streak.svg
-          git commit -m "🔥 Update streak stats ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git commit -m "🔥 Update streak stats" || echo "No changes"
           git push || echo "Nothing to push"
 
   # ============================================
-  # JOB 4: Generate Trophies
+  # JOB 4: Generate Trophies (FIXED)
   # ============================================
   generate-trophies:
     runs-on: ubuntu-latest
-    needs: [generate-streak]
     steps:
       - uses: actions/checkout@v4
       
@@ -130,21 +106,23 @@ jobs:
         run: |
           curl -s "https://github-profile-trophy.vercel.app/?username=BobbyX208&theme=darkhub&no-frame=true&row=2&column=4&margin-w=15&margin-h=15" \
           > assets/trophies.svg
+          
+          # Verify file was created
+          ls -la assets/trophies.svg
       
       - name: Commit Trophies
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/trophies.svg
-          git commit -m "🏆 Update trophies ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git commit -m "🏆 Update trophies" || echo "No changes"
           git push || echo "Nothing to push"
 
   # ============================================
-  # JOB 5: Generate Activity Graph
+  # JOB 5: Generate Activity Graph (FIXED)
   # ============================================
   generate-activity:
     runs-on: ubuntu-latest
-    needs: [generate-trophies]
     steps:
       - uses: actions/checkout@v4
       
@@ -158,7 +136,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/activity-graph.svg
-          git commit -m "📈 Update activity graph ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git commit -m "📈 Update activity graph" || echo "No changes"
           git push || echo "Nothing to push"
 
   # ============================================
@@ -166,18 +144,22 @@ jobs:
   # ============================================
   update-cache:
     runs-on: ubuntu-latest
-    needs: [generate-activity]
+    needs: [generate-snake, generate-metrics, generate-streak, generate-trophies, generate-activity]
     steps:
       - uses: actions/checkout@v4
       
       - name: Update Cache Buster
         run: |
           sed -i 's/stats_generated=.*/stats_generated='$(date +%s)'/' README.md || true
+          
+          # List all assets to verify everything exists
+          echo "=== Generated Assets ==="
+          ls -la assets/
       
       - name: Commit Cache Buster
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "🔄 Bump cache buster ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git add README.md assets/
+          git commit -m "🔄 Update all stats and bump cache" || echo "No changes"
           git push || echo "Nothing to push"
