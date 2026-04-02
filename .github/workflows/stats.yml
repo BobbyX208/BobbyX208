@@ -1,0 +1,113 @@
+name: "🔄 Bobby's GitHub Stats Generation"
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  generate-snake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: BobbyX208
+          outputs: |
+            assets/github-snake.svg
+            assets/github-snake-dark.svg?palette=github-dark
+          commit_message: "🐍 Update contribution snake"
+
+  generate-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/metrics.svg
+          base: header, activity, community
+          base_indepth: yes
+          base_hireable: yes
+          
+          plugin_achievements: yes
+          plugin_achievements_threshold: B
+          plugin_achievements_only: >-
+            developer, member, maintainer, organizer, pull, sponsor, star, deployer, explorer
+          
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          
+          plugin_languages: yes
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          
+          plugin_habits: yes
+          plugin_habits_from: 200
+          plugin_habits_days: 30
+          plugin_habits_facts: yes
+          plugin_habits_charts: yes
+          
+          plugin_activity: yes
+          plugin_activity_limit: 5
+          plugin_activity_days: 14
+          plugin_activity_filter: issue, pr, release, fork, review, comment
+          
+          config_order: header, isocalendar, languages, habits, activity, achievements
+          config_timezone: Africa/Lagos
+          output_action: commit
+
+  generate-streak:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Get streak stats
+        run: |
+          curl -s "https://github-readme-streak-stats.herokuapp.com?user=BobbyX208&theme=dark&hide_border=true&stroke=ff5c00&ring=ff5c00&fire=ff5c00&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=ff5c00&sideLabels=ffffff&dates=888888" \
+          > assets/streak.svg
+      
+      - name: Commit streak
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/streak.svg
+          git commit -m "🔥 Update streak stats" || echo "No changes to commit"
+          git push || echo "Nothing to push"
+
+  generate-trophies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Get trophies
+        run: |
+          curl -s "https://github-profile-trophy.vercel.app/?username=BobbyX208&theme=darkhub&no-frame=true&row=2&column=4&margin-w=15&margin-h=15" \
+          > assets/trophies.svg
+      
+      - name: Commit trophies
+        run: |
+          git add assets/trophies.svg
+          git commit -m "🏆 Update trophies" || echo "No changes"
+          git push || echo "Nothing to push"
+
+  update-readme:
+    runs-on: ubuntu-latest
+    needs: [generate-snake, generate-metrics, generate-streak, generate-trophies]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Update README stats references
+        run: |
+          # Force regenerate README with updated timestamps to bust caches
+          sed -i 's/stats_generated=.*/stats_generated='$(date +%s)'/' README.md || true
+          
+      - name: Commit README update
+        run: |
+          git add README.md assets/
+          git commit -m "✨ Auto-update GitHub stats ($(date +'%Y-%m-%d'))" || echo "No changes"
+          git push || echo "Nothing to push"
