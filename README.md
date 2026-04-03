@@ -99,9 +99,10 @@ class Bobby:
 
 <!--WAKAPI_START-->
 ```
-⏱  Last 7 Days · 0 hrs 0 mins coded · 0 hrs 0 mins/day avg
+⏱  Last 7 Days · 0 hrs 4 mins coded · /day avg
 
-No activity yet — start coding!
+Python       █████████████████░░░  86.9%  0 hrs 4 mins
+SQL          ██░░░░░░░░░░░░░░░░░░  13.1%  0 hrs 1 mins
 ```
 <!--WAKAPI_END-->
 
