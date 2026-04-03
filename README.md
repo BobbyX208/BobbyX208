@@ -99,9 +99,7 @@ class Bobby:
 
 <!--WAKAPI_START-->
 ```
-⏱  Last 7 Days · 0 hrs 0 mins coded · 0 hrs 0 mins/day avg
-
-No activity yet — start coding!
+⏱  connect your Wakapi account to see stats here
 ```
 <!--WAKAPI_END-->
 
@@ -116,7 +114,7 @@ No activity yet — start coding!
 
 <br/>
 
-<img width="60%" src="https://github-readme-streak-stats-salesp07.vercel.app/?user=BobbyX208&theme=dark&hide_border=true&background=080808&ring=FF5C00&fire=FF5C00&currStreakLabel=FF5C00"/>
+
 
 </div>
 
