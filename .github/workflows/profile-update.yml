@@ -2,10 +2,10 @@ name: 🔄 Profile Auto-Update
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # Every 6 hours
-  workflow_dispatch:          # Manual trigger anytime
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
   push:
-    branches: [main]          # Also runs on every push
+    branches: [main]
 
 jobs:
   # ─────────────────────────────────────────
@@ -14,8 +14,12 @@ jobs:
   snake:
     name: 🐍 Snake Animation
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.METRIC_TOKEN }}
 
       - uses: Platane/snk@v3
         with:
@@ -25,9 +29,9 @@ jobs:
             output/github-snake-dark.svg?palette=github-dark
 
       - name: Push snake to output branch
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.METRIC_TOKEN }}
           publish_dir: ./output
           publish_branch: output
           user_name: github-actions[bot]
@@ -39,42 +43,42 @@ jobs:
   activity:
     name: 📰 Activity Feed
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.METRIC_TOKEN }}
 
       - name: Update GitHub Activity
         uses: jamesgeorge007/github-activity-readme@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.METRIC_TOKEN }}
         with:
+          GH_USERNAME: BobbyX208
           COMMIT_MSG: "chore: update activity feed"
           MAX_LINES: 8
           TARGET_FILE: README.md
-          README_FILE: README.md
 
   # ─────────────────────────────────────────
-  # JOB 3: Wakapi Stats Card
+  # JOB 3: Wakapi Stats
   # ─────────────────────────────────────────
   wakapi:
     name: ⏱️ Wakapi Stats
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.METRIC_TOKEN }}
 
-      - name: Fetch Wakapi Stats
-        env:
-          WAKAPI_API_KEY: ${{ secrets.WAKAPI_API_KEY }}
-        run: |
-          curl -s "https://wakapi.dev/api/compat/wakatime/v1/users/current/stats/last_7_days" \
-            -H "Authorization: Basic $(echo -n $WAKAPI_API_KEY | base64)" \
-            -o wakapi_stats.json
-
-      - name: Generate Wakapi Badge Section
+      - name: Generate & Inject Wakapi Stats
         env:
           WAKAPI_API_KEY: ${{ secrets.WAKAPI_API_KEY }}
         run: |
           python3 << 'EOF'
-          import json, base64, urllib.request, os
+          import json, base64, urllib.request, os, re
 
           api_key = os.environ["WAKAPI_API_KEY"]
           encoded = base64.b64encode(api_key.encode()).decode()
@@ -84,37 +88,37 @@ jobs:
             headers={"Authorization": f"Basic {encoded}"}
           )
 
-          with urllib.request.urlopen(req) as res:
-            data = json.loads(res.read())
+          try:
+            with urllib.request.urlopen(req) as res:
+              data = json.loads(res.read())
 
-          stats = data.get("data", {})
-          total = stats.get("human_readable_total", "N/A")
-          daily_avg = stats.get("human_readable_daily_average", "N/A")
-          languages = stats.get("languages", [])[:5]
+            stats = data.get("data", {})
+            total = stats.get("human_readable_total", "N/A")
+            daily_avg = stats.get("human_readable_daily_average", "N/A")
+            languages = stats.get("languages", [])[:5]
 
-          lang_lines = ""
-          for lang in languages:
-            name = lang["name"]
-            pct = lang["percent"]
-            hrs = lang.get("text", "")
-            bar_filled = int(pct / 5)
-            bar = "█" * bar_filled + "░" * (20 - bar_filled)
-            lang_lines += f"{name:<12} {bar} {pct:>5.1f}%  {hrs}\n"
+            lang_lines = ""
+            for lang in languages:
+              name = lang["name"]
+              pct = lang["percent"]
+              hrs = lang.get("text", "")
+              bar_filled = int(pct / 5)
+              bar = "█" * bar_filled + "░" * (20 - bar_filled)
+              lang_lines += f"{name:<12} {bar} {pct:>5.1f}%  {hrs}\n"
 
-          block = f"""<!--WAKAPI_START-->
-          ```
-          ⏱  Last 7 Days · {total} coded · {daily_avg}/day avg
+            if not lang_lines:
+              lang_lines = "No activity yet — start coding!\n"
 
-          {lang_lines.strip()}
-          ```
-          <!--WAKAPI_END-->"""
+            block = f"<!--WAKAPI_START-->\n```\n⏱  Last 7 Days · {total} coded · {daily_avg}/day avg\n\n{lang_lines.strip()}\n```\n<!--WAKAPI_END-->"
+
+          except Exception as e:
+            block = f"<!--WAKAPI_START-->\n```\n⏱  Could not fetch stats: {e}\n```\n<!--WAKAPI_END-->"
 
           with open("README.md", "r") as f:
             content = f.read()
 
-          import re
           pattern = r"<!--WAKAPI_START-->.*?<!--WAKAPI_END-->"
-          new_content = re.sub(pattern, block.strip(), content, flags=re.DOTALL)
+          new_content = re.sub(pattern, block, content, flags=re.DOTALL)
 
           with open("README.md", "w") as f:
             f.write(new_content)
