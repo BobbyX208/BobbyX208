@@ -1,6 +1,5 @@
 <div align="center">
 
-<!-- Header -->
 <img width="100%" src="https://capsule-render.vercel.app/api?type=rect&color=0:080808,100:111111&height=2&section=header"/>
 
 ```
@@ -65,7 +64,7 @@ class Bobby:
 ![Firebase](https://img.shields.io/badge/Firebase-111111?style=flat-square&logo=firebase&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-111111?style=flat-square&logo=docker&logoColor=white)
 
-**AI Integrations**
+**AI**
 
 ![Groq](https://img.shields.io/badge/Groq-FF5C00?style=flat-square&logo=groq&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Gemini_Flash-FF5C00?style=flat-square&logo=google&logoColor=white)
@@ -89,6 +88,23 @@ class Bobby:
 
 <br/>
 
+## `> tail -f ./activity`
+
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
+<br/>
+
+## `> watch ./coding_time`
+
+<!--WAKAPI_START-->
+```
+⏱  connect your Wakapi account to see stats here
+```
+<!--WAKAPI_END-->
+
+<br/>
+
 ## `> git stats`
 
 <div align="center">
@@ -98,17 +114,17 @@ class Bobby:
 
 <br/>
 
-<img width="60%" src="https://github-readme-streak-stats.herokuapp.com/?user=BobbyX208&theme=dark&hide_border=true&background=080808&ring=FF5C00&fire=FF5C00&currStreakLabel=FF5C00"/>
+<img width="60%" src="https://streak-stats.demolab.com/?user=BobbyX208&theme=dark&hide_border=true&background=080808&ring=FF5C00&fire=FF5C00&currStreakLabel=FF5C00"/>
 
 </div>
 
 <br/>
 
-## `> watch ./activity`
+## `> watch ./snake`
 
 <div align="center">
 
-![Snake](https://raw.githubusercontent.com/BobbyX208/BobbyX208/output/github-snake-dark.svg)
+![Snake](https://raw.githubusercontent.com/BobbyX208/BobbyX208/refs/heads/output/github-snake-dark.svg)
 
 </div>
 
