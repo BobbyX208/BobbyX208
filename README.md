@@ -111,8 +111,7 @@ No activity yet — start coding!
 
 <div align="center">
 
-<img height="160" src="https://github-readme-stats.vercel.app/api?username=BobbyX208&show_icons=true&theme=dark&hide_border=true&bg_color=080808&title_color=FF5C00&icon_color=FF5C00&text_color=ffffff&count_private=true"/>
-<img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=BobbyX208&layout=compact&theme=dark&hide_border=true&bg_color=080808&title_color=FF5C00&text_color=ffffff"/>
+<img height="160" src="https://github-readme-streak-stats.herokuapp.com?user=BobbyX208&theme=dark&hide_border=true&stroke=FF5C00&ring=FF5C00&fire=FF5C00&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=FF5C00&sideLabels=ffffff&dates=888888&background=080808"/>
 
 <br/>
 
