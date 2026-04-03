@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.METRIC_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.METRIC_TOKEN }}
 
       - uses: Platane/snk@v3
         with:
@@ -31,7 +31,7 @@ jobs:
       - name: Push snake to output branch
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.METRIC_TOKEN }}
+          personal_token: ${{ secrets.METRIC_TOKEN }}
           publish_dir: ./output
           publish_branch: output
           user_name: github-actions[bot]
@@ -47,8 +47,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.METRIC_TOKEN }}
 
       - name: Update GitHub Activity
         uses: jamesgeorge007/github-activity-readme@master
@@ -70,8 +68,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.METRIC_TOKEN }}
 
       - name: Generate & Inject Wakapi Stats
         env:
@@ -127,9 +123,12 @@ jobs:
           EOF
 
       - name: Commit Wakapi Stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.METRIC_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.METRIC_TOKEN }}@github.com/BobbyX208/BobbyX208.git
           git add README.md
           git diff --staged --quiet || git commit -m "chore: update wakapi stats"
           git push
