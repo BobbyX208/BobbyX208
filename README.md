@@ -99,7 +99,9 @@ class Bobby:
 
 <!--WAKAPI_START-->
 ```
-⏱  connect your Wakapi account to see stats here
+⏱  Last 7 Days · 0 hrs 0 mins coded · 0 hrs 0 mins/day avg
+
+No activity yet — start coding!
 ```
 <!--WAKAPI_END-->
 
