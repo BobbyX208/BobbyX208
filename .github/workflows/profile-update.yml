@@ -61,10 +61,10 @@ jobs:
           TARGET_FILE: README.md
 
   # ─────────────────────────────────────────
-  # JOB 3: Wakapi Stats
+  # JOB 3: DevTracker Stats (Your API!)
   # ─────────────────────────────────────────
-  wakapi:
-    name: ⏱️ Wakapi Stats
+  devtracker:
+    name: ⏱️ DevTracker Stats
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -73,19 +73,20 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
 
-      - name: Generate & Inject Wakapi Stats
+      - name: Generate & Inject DevTracker Stats
         env:
-          WAKAPI_API_KEY: ${{ secrets.WAKAPI_API_KEY }}
+          DEVTRACKER_API_KEY: ${{ secrets.DEVTRACKER_API_KEY }}
+          DEVTRACKER_API_URL: ${{ secrets.DEVTRACKER_API_URL }}
         run: |
           python3 << 'EOF'
-          import json, base64, urllib.request, os, re
+          import json, urllib.request, os, re
 
-          api_key = os.environ["WAKAPI_API_KEY"]
-          encoded = base64.b64encode(api_key.encode()).decode()
+          api_key = os.environ["DEVTRACKER_API_KEY"]
+          api_url = os.environ["DEVTRACKER_API_URL"]
 
           req = urllib.request.Request(
-            "https://wakapi.dev/api/compat/wakatime/v1/users/current/stats/last_7_days",
-            headers={"Authorization": f"Basic {encoded}"}
+            f"{api_url}/api/v1/users/current/stats?range=last_7_days",
+            headers={"Authorization": f"Bearer {api_key}"}
           )
 
           try:
@@ -93,8 +94,16 @@ jobs:
               data = json.loads(res.read())
 
             stats = data.get("data", {})
-            total = stats.get("human_readable_total", "N/A")
-            daily_avg = stats.get("human_readable_daily_average", "N/A")
+            total_secs = stats.get("total_seconds", 0)
+            hours = total_secs // 3600
+            mins = (total_secs % 3600) // 60
+            total = f"{hours} hrs {mins} mins"
+            
+            daily_avg_secs = stats.get("daily_average", 0)
+            avg_hours = daily_avg_secs // 3600
+            avg_mins = (daily_avg_secs % 3600) // 60
+            daily_avg = f"{avg_hours}h {avg_mins}m"
+            
             languages = stats.get("languages", [])[:5]
 
             lang_lines = ""
@@ -107,7 +116,7 @@ jobs:
               lang_lines += f"{name:<12} {bar} {pct:>5.1f}%  {hrs}\n"
 
             if not lang_lines:
-              lang_lines = "No activity yet — start coding!\n"
+              lang_lines = "No activity yet — start coding with DevTracker!\n"
 
             block = f"<!--WAKAPI_START-->\n```\n⏱  Last 7 Days · {total} coded · {daily_avg}/day avg\n\n{lang_lines.strip()}\n```\n<!--WAKAPI_END-->"
 
@@ -123,13 +132,13 @@ jobs:
           with open("README.md", "w") as f:
             f.write(new_content)
 
-          print("✅ Wakapi stats injected")
+          print("✅ DevTracker stats injected")
           EOF
 
-      - name: Commit Wakapi Stats
+      - name: Commit DevTracker Stats
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git diff --staged --quiet || git commit -m "chore: update wakapi stats"
+          git diff --staged --quiet || git commit -m "chore: update devtracker stats"
           git push
