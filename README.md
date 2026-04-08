@@ -92,12 +92,11 @@ class Bobby:
 
 <!--WAKAPI_START-->
 ```
-⏱  Last 7 Days · 0 hrs 16 mins coded · 0h 2m/day avg
+⏱  Last 7 Days · 0 hrs 2 mins coded · 0h 0m/day avg
 
-Python       █████████████░░░░░░░  65.2%  0h 10m
-Unknown      █████░░░░░░░░░░░░░░░  28.8%  0h 4m
-YAML         ░░░░░░░░░░░░░░░░░░░░   3.1%  0h 0m
-SQL          ░░░░░░░░░░░░░░░░░░░░   2.9%  0h 0m
+Unknown      ███████░░░░░░░░░░░░░  36.8%  0h 1m
+Python       ██████░░░░░░░░░░░░░░  33.9%  0h 0m
+JavaScript   █████░░░░░░░░░░░░░░░  29.2%  0h 0m
 ```
 <!--WAKAPI_END-->
 
