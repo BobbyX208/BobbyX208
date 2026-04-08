@@ -111,6 +111,12 @@ SQL          ░░░░░░░░░░░░░░░░░░░░   2.9%
 
 <br/>
 
+## `> tail -f ./activity`
+
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
+<br/>
 
 
 </div>
