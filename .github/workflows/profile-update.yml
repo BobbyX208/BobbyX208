@@ -61,7 +61,7 @@ jobs:
           TARGET_FILE: README.md
 
   # ─────────────────────────────────────────
-  # JOB 3: DevTracker Stats (Your API!)
+  # JOB 3: Wake Koyeb → DevTracker Stats
   # ─────────────────────────────────────────
   devtracker:
     name: ⏱️ DevTracker Stats
@@ -72,6 +72,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.METRICS_TOKEN }}
+          
+      - name: ☀️ Wake Koyeb
+        env:
+          DEVTRACKER_API_URL: ${{ secrets.DEVTRACKER_API_URL }}
+        run: |
+          echo "Pinging Koyeb to wake from sleep..."
+          for i in $(seq 1 18); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "$DEVTRACKER_API_URL/" || echo "000")
+            echo "Attempt $i — HTTP $STATUS"
+            if [ "$STATUS" = "200" ] || [ "$STATUS" = "404" ]; then
+              echo "✅ Koyeb is awake (got $STATUS)"
+              break
+            fi
+            if [ $i -eq 18 ]; then
+              echo "⚠️ Koyeb still sleeping after 90s — injecting fallback message"
+              exit 0
+            fi
+            sleep 5
+          done
 
       - name: Generate & Inject DevTracker Stats
         env:
@@ -79,55 +98,65 @@ jobs:
           DEVTRACKER_API_URL: ${{ secrets.DEVTRACKER_API_URL }}
         run: |
           python3 << 'EOF'
-          import json, urllib.request, os, re
+          import json, urllib.request, os, re, time
 
           api_key = os.environ["DEVTRACKER_API_KEY"]
           api_url = os.environ["DEVTRACKER_API_URL"]
 
           req = urllib.request.Request(
-            f"{api_url}/api/v1/users/current/stats?range=last_7_days",
+            f"{api_url}/devtracker/analytics?days=7",
             headers={"Authorization": f"Bearer {api_key}"}
           )
 
           try:
-            with urllib.request.urlopen(req) as res:
+            with urllib.request.urlopen(req, timeout=15) as res:
               data = json.loads(res.read())
 
-            stats = data.get("data", {})
-            total_secs = stats.get("total_seconds", 0)
+            stats = data.get("data", data)
+            total_secs = stats.get("total_seconds", stats.get("totalSeconds", 0))
             hours = total_secs // 3600
             mins = (total_secs % 3600) // 60
-            total = f"{hours} hrs {mins} mins"
-            
-            daily_avg_secs = stats.get("daily_average", 0)
+            total = f"{hours}h {mins}m" if hours > 0 else f"{mins}m"
+
+            daily_avg_secs = stats.get("daily_average", total_secs // 7)
             avg_hours = daily_avg_secs // 3600
             avg_mins = (daily_avg_secs % 3600) // 60
-            daily_avg = f"{avg_hours}h {avg_mins}m"
-            
-            languages = stats.get("languages", [])[:5]
+            daily_avg = f"{avg_hours}h {avg_mins}m" if avg_hours > 0 else f"{avg_mins}m"
+
+            raw_langs = stats.get("languages", stats.get("byLanguage", []))
+            if isinstance(raw_langs, dict):
+              languages = sorted(
+                [{"name": k, "seconds": v, "percent": (v / total_secs * 100) if total_secs else 0}
+                 for k, v in raw_langs.items() if k not in ("Unknown", "Other")],
+                key=lambda x: x["seconds"], reverse=True
+              )[:5]
+            else:
+              languages = [l for l in raw_langs if l.get("name") not in ("Unknown", "Other")][:5]
 
             lang_lines = ""
             for lang in languages:
-              name = lang["name"]
-              pct = lang["percent"]
-              hrs = lang.get("text", "")
+              name = lang.get("name", "?")
+              pct = lang.get("percent", 0)
               bar_filled = int(pct / 5)
               bar = "█" * bar_filled + "░" * (20 - bar_filled)
-              lang_lines += f"{name:<12} {bar} {pct:>5.1f}%  {hrs}\n"
+              lang_lines += f"{name:<12} {bar} {pct:>5.1f}%\n"
 
             if not lang_lines:
-              lang_lines = "No activity yet — start coding with DevTracker!\n"
+              lang_lines = "No activity recorded this week\n"
 
-            block = f"<!--WAKAPI_START-->\n```\n⏱  Last 7 Days · {total} coded · {daily_avg}/day avg\n\n{lang_lines.strip()}\n```\n<!--WAKAPI_END-->"
+            block = f"<!--DEVTRACKER_START-->\n```\n⏱  Last 7 Days · {total} coded · {daily_avg}/day avg\n\n{lang_lines.strip()}\n```\n<!--DEVTRACKER_END-->"
 
           except Exception as e:
-            block = f"<!--WAKAPI_START-->\n```\n⏱  Could not fetch stats: {e}\n```\n<!--WAKAPI_END-->"
+            print(f"Stats fetch failed: {e}")
+            block = "<!--DEVTRACKER_START-->\n```\n⏱  Stats temporarily unavailable — Koyeb may be sleeping\n```\n<!--DEVTRACKER_END-->"
 
           with open("README.md", "r") as f:
             content = f.read()
 
-          pattern = r"<!--WAKAPI_START-->.*?<!--WAKAPI_END-->"
-          new_content = re.sub(pattern, block, content, flags=re.DOTALL)
+          new_content = re.sub(
+            r"<!--(?:WAKAPI|DEVTRACKER)_START-->.*?<!--(?:WAKAPI|DEVTRACKER)_END-->",
+            block, content, flags=re.DOTALL
+          )
 
           with open("README.md", "w") as f:
             f.write(new_content)
