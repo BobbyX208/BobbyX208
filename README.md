@@ -15,7 +15,7 @@
 
 <br/>
 
-[![Portfolio](https://img.shields.io/badge/iambobby.netlify.app-FF5C00?style=for-the-badge&logo=netlify&logoColor=white)](https://bobbyx208.github.io/)
+[![Portfolio](https://img.shields.io/badge/bobbyx208.github.io-FF5C00?style=for-the-badge&logo=netlify&logoColor=white)](https://bobbyx208.github.io/)
 [![Instagram](https://img.shields.io/badge/@bob__msi-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/bob_msi)
 [![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/1214231706698252320)
 
