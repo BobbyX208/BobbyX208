@@ -90,11 +90,15 @@ class Bobby:
 
 ## `> watch ./coding_time`
 
-<!--WAKAPI_START-->
+<!--DEVTRACKER_START-->
 ```
-⏱  Could not fetch stats: HTTP Error 503: Service Unavailable
+⏱  Last 7 Days · 1h 2m coded · 8m/day avg
+
+HTML         ███████████░░░░░░░░░  59.3%
+Python       ░░░░░░░░░░░░░░░░░░░░   1.5%
+JavaScript   ░░░░░░░░░░░░░░░░░░░░   1.3%
 ```
-<!--WAKAPI_END-->
+<!--DEVTRACKER_END-->
 
 <br/>
 
