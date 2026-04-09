@@ -92,12 +92,7 @@ class Bobby:
 
 <!--WAKAPI_START-->
 ```
-⏱  Last 7 Days · 1 hrs 2 mins coded · 0h 8m/day avg
-
-HTML         ███████████░░░░░░░░░  59.3%  0h 37m
-Unknown      ███████░░░░░░░░░░░░░  37.8%  0h 23m
-Python       ░░░░░░░░░░░░░░░░░░░░   1.5%  0h 0m
-JavaScript   ░░░░░░░░░░░░░░░░░░░░   1.3%  0h 0m
+⏱  Could not fetch stats: HTTP Error 503: Service Unavailable
 ```
 <!--WAKAPI_END-->
 
