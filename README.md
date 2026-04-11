@@ -92,13 +92,13 @@ class Bobby:
 
 <!--DEVTRACKER_START-->
 ```
-⏱  Last 7 Days · 4h 23m coded · 37m/day avg
+⏱  Last 7 Days · 15h 51m coded · 2h 15m/day avg
 
-HTML         ████████░░░░░░░░░░░░  42.2%
-Python       ██████░░░░░░░░░░░░░░  31.5%
-Notifications █░░░░░░░░░░░░░░░░░░░   6.1%
-JavaScript   ░░░░░░░░░░░░░░░░░░░░   4.8%
-remote       ░░░░░░░░░░░░░░░░░░░░   1.8%
+Python       █████████████░░░░░░░  65.9%
+HTML         ██░░░░░░░░░░░░░░░░░░  11.7%
+YAML         ██░░░░░░░░░░░░░░░░░░  11.1%
+Notifications █░░░░░░░░░░░░░░░░░░░   5.8%
+JavaScript   ░░░░░░░░░░░░░░░░░░░░   1.3%
 ```
 <!--DEVTRACKER_END-->
 
