@@ -92,11 +92,11 @@ class Bobby:
 
 <!--DEVTRACKER_START-->
 ```
-⏱  Last 7 Days · 3h 26m coded · 29m/day avg
+⏱  Last 7 Days · 2h 47m coded · 23m/day avg
 
-Python       ████████████░░░░░░░░  63.8%
-HTML         ██░░░░░░░░░░░░░░░░░░  13.7%
-JavaScript   ░░░░░░░░░░░░░░░░░░░░   4.0%
+Python       ███████████████░░░░░  78.6%
+HTML         ███░░░░░░░░░░░░░░░░░  16.9%
+JavaScript   ░░░░░░░░░░░░░░░░░░░░   4.9%
 ```
 <!--DEVTRACKER_END-->
 
