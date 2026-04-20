@@ -92,7 +92,11 @@ class Bobby:
 
 <!--DEVTRACKER_START-->
 ```
-⏱  Stats temporarily unavailable — Koyeb may be sleeping
+⏱  Last 7 Days · 2h 47m coded · 23m/day avg
+
+Python       ███████████████░░░░░  78.6%
+HTML         ███░░░░░░░░░░░░░░░░░  16.9%
+JavaScript   ░░░░░░░░░░░░░░░░░░░░   4.9%
 ```
 <!--DEVTRACKER_END-->
 
