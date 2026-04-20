@@ -94,9 +94,8 @@ class Bobby:
 ```
 ⏱  Last 7 Days · 2h 47m coded · 23m/day avg
 
-Python       ███████████████░░░░░  78.6%
+Python       ████████████░░░░░░░░  60.7%
 HTML         ███░░░░░░░░░░░░░░░░░  16.9%
-JavaScript   ░░░░░░░░░░░░░░░░░░░░   4.9%
 ```
 <!--DEVTRACKER_END-->
 
