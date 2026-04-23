@@ -92,9 +92,9 @@ class Bobby:
 
 <!--DEVTRACKER_START-->
 ```
-⏱  Last 7 Days · 1h 49m coded · 15m/day avg
+⏱  Last 7 Days · 0m coded · 0m/day avg
 
-Python       ████████████████░░░░  82.1%
+No activity recorded this week
 ```
 <!--DEVTRACKER_END-->
 
