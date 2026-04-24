@@ -92,9 +92,7 @@ class Bobby:
 
 <!--DEVTRACKER_START-->
 ```
-⏱  Last 7 Days · 0m coded · 0m/day avg
-
-No activity recorded this week
+⏱  Stats temporarily unavailable — Koyeb may be sleeping
 ```
 <!--DEVTRACKER_END-->
 
